@@ -1,0 +1,189 @@
+import { _ as __nuxt_component_0 } from './PageHeading-CcJIC8pa.mjs';
+import { u as useLocale, d as useAsyncData, e as __nuxt_component_0$1, _ as __nuxt_component_1$1 } from './server.mjs';
+import { _ as __nuxt_component_3 } from './EmptyState-DK0sbXW-.mjs';
+import { defineComponent, ref, withAsyncContext, computed, mergeProps, unref, withCtx, createVNode, createTextVNode, toDisplayString, useSSRContext } from 'vue';
+import { ssrRenderAttrs, ssrRenderComponent, ssrInterpolate, ssrRenderAttr, ssrIncludeBooleanAttr, ssrLooseContain, ssrLooseEqual, ssrRenderList } from 'vue/server-renderer';
+import { u as useCmsAdmin, f as formatDateTime } from './useCmsAdmin-JU0iaKpB.mjs';
+import '../nitro/nitro.mjs';
+import 'node:http';
+import 'node:https';
+import 'node:events';
+import 'node:buffer';
+import 'node:fs';
+import 'node:path';
+import 'node:crypto';
+import 'node:url';
+import '@iconify/utils';
+import 'consola';
+import 'vue-router';
+import '@iconify/vue';
+import '@iconify/utils/lib/css/icon';
+import 'perfect-debounce';
+import '../routes/renderer.mjs';
+import 'vue-bundle-renderer/runtime';
+import 'unhead/server';
+import 'devalue';
+import 'unhead/utils';
+
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "index",
+  __ssrInlineRender: true,
+  async setup(__props) {
+    let __temp, __restore;
+    const { adminRepository } = useCmsAdmin();
+    const { t } = useLocale();
+    const search = ref("");
+    const selectedModelId = ref("");
+    const { data, refresh } = ([__temp, __restore] = withAsyncContext(async () => useAsyncData("entries:list", async () => {
+      const [entries, models] = await Promise.all([
+        adminRepository.listEntries(),
+        adminRepository.listModels()
+      ]);
+      return {
+        entries: entries.items,
+        models: models.items
+      };
+    })), __temp = await __temp, __restore(), __temp);
+    const modelMap = computed(
+      () => Object.fromEntries((data.value?.models || []).map((model) => [model.id, model]))
+    );
+    const filteredEntries = computed(() => {
+      const query = search.value.trim().toLowerCase();
+      return (data.value?.entries || []).filter((entry) => {
+        const matchesModel = !selectedModelId.value || entry.modelId === selectedModelId.value;
+        const matchesSearch = !query || [entry.title, entry.slug, modelMap.value[entry.modelId]?.name].join(" ").toLowerCase().includes(query);
+        return matchesModel && matchesSearch;
+      });
+    });
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_PageHeading = __nuxt_component_0;
+      const _component_NuxtLink = __nuxt_component_0$1;
+      const _component_Icon = __nuxt_component_1$1;
+      const _component_EmptyState = __nuxt_component_3;
+      _push(`<div${ssrRenderAttrs(mergeProps({ class: "space-y-8" }, _attrs))}>`);
+      _push(ssrRenderComponent(_component_PageHeading, {
+        eyebrow: unref(t)("entries.index.eyebrow"),
+        title: unref(t)("entries.index.title"),
+        description: unref(t)("entries.index.description")
+      }, {
+        actions: withCtx((_, _push2, _parent2, _scopeId) => {
+          if (_push2) {
+            _push2(ssrRenderComponent(_component_NuxtLink, {
+              class: "action-button",
+              "data-variant": "solid",
+              to: "/entries/new"
+            }, {
+              default: withCtx((_2, _push3, _parent3, _scopeId2) => {
+                if (_push3) {
+                  _push3(ssrRenderComponent(_component_Icon, {
+                    name: "lucide:plus",
+                    size: "16"
+                  }, null, _parent3, _scopeId2));
+                  _push3(` ${ssrInterpolate(unref(t)("entries.index.new"))}`);
+                } else {
+                  return [
+                    createVNode(_component_Icon, {
+                      name: "lucide:plus",
+                      size: "16"
+                    }),
+                    createTextVNode(" " + toDisplayString(unref(t)("entries.index.new")), 1)
+                  ];
+                }
+              }),
+              _: 1
+            }, _parent2, _scopeId));
+          } else {
+            return [
+              createVNode(_component_NuxtLink, {
+                class: "action-button",
+                "data-variant": "solid",
+                to: "/entries/new"
+              }, {
+                default: withCtx(() => [
+                  createVNode(_component_Icon, {
+                    name: "lucide:plus",
+                    size: "16"
+                  }),
+                  createTextVNode(" " + toDisplayString(unref(t)("entries.index.new")), 1)
+                ]),
+                _: 1
+              })
+            ];
+          }
+        }),
+        _: 1
+      }, _parent));
+      _push(`<section class="grid gap-4 lg:grid-cols-[minmax(0,1fr)_260px_200px]"><label class="space-y-2 text-sm"><span class="font-medium">${ssrInterpolate(unref(t)("entries.index.searchLabel"))}</span><div class="relative">`);
+      _push(ssrRenderComponent(_component_Icon, {
+        class: "pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-black/36",
+        name: "lucide:search",
+        size: "16"
+      }, null, _parent));
+      _push(`<input${ssrRenderAttr("value", unref(search))} class="form-input pl-10"${ssrRenderAttr("placeholder", unref(t)("entries.index.searchPlaceholder"))}></div></label><label class="space-y-2 text-sm"><span class="font-medium">${ssrInterpolate(unref(t)("entryForm.model"))}</span><select class="form-select"><option value=""${ssrIncludeBooleanAttr(Array.isArray(unref(selectedModelId)) ? ssrLooseContain(unref(selectedModelId), "") : ssrLooseEqual(unref(selectedModelId), "")) ? " selected" : ""}>${ssrInterpolate(unref(t)("common.allModels"))}</option><!--[-->`);
+      ssrRenderList(unref(data)?.models || [], (model) => {
+        _push(`<option${ssrRenderAttr("value", model.id)}${ssrIncludeBooleanAttr(Array.isArray(unref(selectedModelId)) ? ssrLooseContain(unref(selectedModelId), model.id) : ssrLooseEqual(unref(selectedModelId), model.id)) ? " selected" : ""}>${ssrInterpolate(model.name)}</option>`);
+      });
+      _push(`<!--]--></select></label><div class="soft-panel flex items-end justify-between px-4 py-4"><div><p class="text-xs font-semibold uppercase tracking-[0.2em] text-black/40">${ssrInterpolate(unref(t)("common.total"))}</p><p class="mt-2 text-2xl font-semibold tracking-[-0.05em]">${ssrInterpolate(unref(filteredEntries).length)}</p></div><button class="action-button px-3 py-2 text-sm" type="button">${ssrInterpolate(unref(t)("common.refresh"))}</button></div></section><section class="soft-panel overflow-hidden"><div class="grid border-b border-black/12 bg-black/[0.03] px-5 py-3 text-xs font-semibold uppercase tracking-[0.2em] text-black/48 md:grid-cols-[minmax(0,1.2fr)_180px_160px_170px_120px]"><span>${ssrInterpolate(unref(t)("entries.index.eyebrow"))}</span><span>${ssrInterpolate(unref(t)("entryForm.model"))}</span><span>${ssrInterpolate(unref(t)("common.status"))}</span><span>${ssrInterpolate(unref(t)("common.updated"))}</span><span class="md:text-right">${ssrInterpolate(unref(t)("common.edit"))}</span></div>`);
+      if (unref(filteredEntries).length) {
+        _push(`<div class="data-grid"><!--[-->`);
+        ssrRenderList(unref(filteredEntries), (entry) => {
+          _push(`<div class="grid gap-3 px-5 py-4 md:grid-cols-[minmax(0,1.2fr)_180px_160px_170px_120px]"><div>`);
+          _push(ssrRenderComponent(_component_NuxtLink, {
+            to: `/entries/${entry.id}`,
+            class: "font-medium hover:underline"
+          }, {
+            default: withCtx((_, _push2, _parent2, _scopeId) => {
+              if (_push2) {
+                _push2(`${ssrInterpolate(entry.title)}`);
+              } else {
+                return [
+                  createTextVNode(toDisplayString(entry.title), 1)
+                ];
+              }
+            }),
+            _: 2
+          }, _parent));
+          _push(`<p class="mt-1 text-sm text-black/55">${ssrInterpolate(entry.slug)}</p></div><div class="text-sm text-black/58">${ssrInterpolate(unref(modelMap)[entry.modelId]?.name || entry.modelId)}</div><div class="flex flex-wrap items-center gap-2"><span class="pill"${ssrRenderAttr("data-tone", entry.status === "published" ? "success" : "warning")}>${ssrInterpolate(unref(t)(`status.${entry.status}`))}</span>`);
+          if (entry.publishedAt) {
+            _push(`<span class="text-xs text-black/48">${ssrInterpolate(unref(t)("status.published"))}</span>`);
+          } else {
+            _push(`<!---->`);
+          }
+          _push(`</div><div class="text-sm text-black/58">${ssrInterpolate(unref(formatDateTime)(entry.updatedAt))}</div><div class="flex items-center justify-between gap-3 md:justify-end">`);
+          _push(ssrRenderComponent(_component_NuxtLink, {
+            to: `/entries/${entry.id}`,
+            class: "text-sm font-medium"
+          }, {
+            default: withCtx((_, _push2, _parent2, _scopeId) => {
+              if (_push2) {
+                _push2(`${ssrInterpolate(unref(t)("common.edit"))}`);
+              } else {
+                return [
+                  createTextVNode(toDisplayString(unref(t)("common.edit")), 1)
+                ];
+              }
+            }),
+            _: 2
+          }, _parent));
+          _push(`<button class="text-sm font-medium text-red-700" type="button">${ssrInterpolate(unref(t)("common.delete"))}</button></div></div>`);
+        });
+        _push(`<!--]--></div>`);
+      } else {
+        _push(ssrRenderComponent(_component_EmptyState, {
+          title: unref(t)("entries.index.noResultsTitle"),
+          message: unref(t)("entries.index.noResultsMessage")
+        }, null, _parent));
+      }
+      _push(`</section></div>`);
+    };
+  }
+});
+const _sfc_setup = _sfc_main.setup;
+_sfc_main.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("pages/entries/index.vue");
+  return _sfc_setup ? _sfc_setup(props, ctx) : void 0;
+};
+
+export { _sfc_main as default };
+//# sourceMappingURL=index-CQFPiGz6.mjs.map

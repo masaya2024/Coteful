@@ -1,0 +1,1 @@
+import{o as t,a as o,g as c,b as a,N as n,P as r}from"./DW3EBzdh.js";import{_}from"./DlAUqK2U.js";const l={},p={class:"page-shell min-h-screen text-black"},i={class:"public-main px-4 pb-6 pt-2 md:px-6 lg:px-8"};function d(e,m){const s=r;return t(),o("div",p,[c(s),a("main",i,[n(e.$slots,"default")])])}const x=_(l,[["render",d]]);export{x as default};

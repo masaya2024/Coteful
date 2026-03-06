@@ -1,0 +1,148 @@
+import { u as useLocale, _ as __nuxt_component_1$1 } from './server.mjs';
+import { _ as __nuxt_component_3 } from './EmptyState-DK0sbXW-.mjs';
+import { defineComponent, reactive, watch, mergeProps, unref, computed, useSSRContext } from 'vue';
+import { ssrRenderAttrs, ssrInterpolate, ssrRenderAttr, ssrRenderList, ssrIncludeBooleanAttr, ssrLooseContain, ssrLooseEqual, ssrRenderComponent } from 'vue/server-renderer';
+import { c as createFieldDraft, n as normalizeFieldForForm, t as toSlug, d as fieldTypeOptions } from './useCmsAdmin-JU0iaKpB.mjs';
+
+const _sfc_main$1 = /* @__PURE__ */ defineComponent({
+  __name: "ModelFieldEditor",
+  __ssrInlineRender: true,
+  props: {
+    fields: {},
+    models: {}
+  },
+  emits: ["update:fields"],
+  setup(__props, { emit: __emit }) {
+    const { t } = useLocale();
+    const props = __props;
+    const emit = __emit;
+    const fields = computed({
+      get: () => props.fields.map(normalizeFieldForForm),
+      set: (value) => emit("update:fields", value.map((field, index) => ({ ...field, order: index + 1 })))
+    });
+    const localizedFieldTypeOptions = computed(
+      () => fieldTypeOptions.map((option) => ({
+        ...option,
+        label: t(`fieldType.${option.value}`)
+      }))
+    );
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_Icon = __nuxt_component_1$1;
+      const _component_EmptyState = __nuxt_component_3;
+      _push(`<section${ssrRenderAttrs(mergeProps({ class: "space-y-4" }, _attrs))}><div class="flex items-center justify-between"><div><p class="text-xs font-semibold uppercase tracking-[0.22em] text-black/42">${ssrInterpolate(unref(t)("modelField.title"))}</p><p class="mt-2 text-sm text-black/55">${ssrInterpolate(unref(t)("modelField.subtitle"))}</p></div><button type="button" class="action-button">`);
+      _push(ssrRenderComponent(_component_Icon, {
+        name: "lucide:plus",
+        size: "16"
+      }, null, _parent));
+      _push(` ${ssrInterpolate(unref(t)("modelField.add"))}</button></div>`);
+      if (unref(fields).length) {
+        _push(`<div class="space-y-4"><!--[-->`);
+        ssrRenderList(unref(fields), (field, index) => {
+          _push(`<article class="soft-panel grid gap-4 border px-4 py-4 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)]"><div class="space-y-4"><div class="flex items-center justify-between"><p class="text-sm font-semibold">${ssrInterpolate(unref(t)("modelField.item", { index: index + 1 }))}</p><div class="flex items-center gap-2"><button type="button" class="action-button px-3 py-2 text-sm">${ssrInterpolate(unref(t)("modelField.moveUp"))}</button><button type="button" class="action-button px-3 py-2 text-sm">${ssrInterpolate(unref(t)("modelField.moveDown"))}</button><button type="button" class="action-button px-3 py-2 text-sm text-red-700">${ssrInterpolate(unref(t)("modelField.remove"))}</button></div></div><div class="grid gap-4 md:grid-cols-2"><label class="space-y-2 text-sm"><span class="font-medium">${ssrInterpolate(unref(t)("modelField.label"))}</span><input${ssrRenderAttr("value", field.name)} class="form-input"${ssrRenderAttr("placeholder", unref(t)("modelField.label"))}></label><label class="space-y-2 text-sm"><span class="font-medium">${ssrInterpolate(unref(t)("modelField.type"))}</span><select class="form-select"${ssrRenderAttr("value", field.type)}><!--[-->`);
+          ssrRenderList(unref(localizedFieldTypeOptions), (option) => {
+            _push(`<option${ssrRenderAttr("value", option.value)}>${ssrInterpolate(option.label)}</option>`);
+          });
+          _push(`<!--]--></select></label></div><div class="grid gap-4 md:grid-cols-2"><label class="space-y-2 text-sm"><span class="font-medium">${ssrInterpolate(unref(t)("modelField.key"))}</span><input${ssrRenderAttr("value", field.key)} class="form-input"${ssrRenderAttr("placeholder", unref(t)("modelField.key"))}></label><label class="space-y-2 text-sm"><span class="font-medium">${ssrInterpolate(unref(t)("modelField.apiKey"))}</span><input${ssrRenderAttr("value", field.apiKey || field.key)} class="form-input"${ssrRenderAttr("placeholder", unref(t)("modelField.apiKey"))}></label></div><label class="space-y-2 text-sm"><span class="font-medium">${ssrInterpolate(unref(t)("modelField.description"))}</span><textarea class="form-textarea min-h-[96px]"${ssrRenderAttr("placeholder", unref(t)("modelField.description"))}>${ssrInterpolate(field.description)}</textarea></label>`);
+          if (field.type === "reference") {
+            _push(`<label class="space-y-2 text-sm"><span class="font-medium">${ssrInterpolate(unref(t)("modelField.referenceModel"))}</span><select class="form-select"${ssrRenderAttr("value", field.referenceModelId || "")}><option value="">${ssrInterpolate(unref(t)("modelField.anyModel"))}</option><!--[-->`);
+            ssrRenderList(__props.models, (model) => {
+              _push(`<option${ssrRenderAttr("value", model.id)}>${ssrInterpolate(model.name)}</option>`);
+            });
+            _push(`<!--]--></select></label>`);
+          } else {
+            _push(`<!---->`);
+          }
+          _push(`</div><div class="space-y-4"><div class="grid gap-3 sm:grid-cols-2"><label class="flex items-center gap-3 border border-black/10 bg-white px-3 py-3 text-sm"><input${ssrIncludeBooleanAttr(field.required) ? " checked" : ""} type="checkbox"> ${ssrInterpolate(unref(t)("modelField.required"))}</label><label class="flex items-center gap-3 border border-black/10 bg-white px-3 py-3 text-sm"><input${ssrIncludeBooleanAttr(field.unique) ? " checked" : ""} type="checkbox"> ${ssrInterpolate(unref(t)("modelField.unique"))}</label><label class="flex items-center gap-3 border border-black/10 bg-white px-3 py-3 text-sm"><input${ssrIncludeBooleanAttr(field.isTitle) ? " checked" : ""} type="checkbox"> ${ssrInterpolate(unref(t)("modelField.titleField"))}</label><label class="flex items-center gap-3 border border-black/10 bg-white px-3 py-3 text-sm"><input${ssrIncludeBooleanAttr(field.showInList) ? " checked" : ""} type="checkbox"> ${ssrInterpolate(unref(t)("modelField.showInList"))}</label></div><label class="space-y-2 text-sm"><span class="font-medium">${ssrInterpolate(unref(t)("modelField.validation"))}</span><input class="form-input"${ssrRenderAttr("value", field.validation.pattern || "")} placeholder="^[a-z0-9-]+$"></label><div class="soft-panel px-4 py-4 text-sm leading-6 text-black/58"><p class="text-xs font-semibold uppercase tracking-[0.2em] text-black/40">${ssrInterpolate(unref(t)("modelField.outputPreview"))}</p><p class="mt-3 font-mono text-xs text-black/74">${ssrInterpolate(`{ "${field.apiKey || field.key || "field"}": "${field.type}" }`)}</p><p class="mt-3">${ssrInterpolate(unref(t)("modelField.required"))}: ${ssrInterpolate(field.required ? unref(t)("common.yes") : unref(t)("common.no"))} · ${ssrInterpolate(unref(t)("modelField.unique"))}: ${ssrInterpolate(field.unique ? unref(t)("common.yes") : unref(t)("common.no"))}</p></div></div></article>`);
+        });
+        _push(`<!--]--></div>`);
+      } else {
+        _push(ssrRenderComponent(_component_EmptyState, {
+          title: unref(t)("modelField.noFieldsTitle"),
+          message: unref(t)("modelField.noFieldsMessage")
+        }, null, _parent));
+      }
+      _push(`</section>`);
+    };
+  }
+});
+const _sfc_setup$1 = _sfc_main$1.setup;
+_sfc_main$1.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/ModelFieldEditor.vue");
+  return _sfc_setup$1 ? _sfc_setup$1(props, ctx) : void 0;
+};
+const __nuxt_component_0 = Object.assign(_sfc_main$1, { __name: "ModelFieldEditor" });
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "ModelForm",
+  __ssrInlineRender: true,
+  props: {
+    model: {},
+    models: {},
+    statusOptions: {},
+    submitLabel: {}
+  },
+  emits: ["submit"],
+  setup(__props, { emit: __emit }) {
+    const { t } = useLocale();
+    const props = __props;
+    const form = reactive({
+      name: "",
+      apiId: "",
+      description: "",
+      status: "active",
+      fields: [createFieldDraft(1)]
+    });
+    watch(
+      () => props.model,
+      (model) => {
+        if (!model) {
+          return;
+        }
+        form.name = model.name;
+        form.apiId = model.apiId;
+        form.description = model.description || "";
+        form.status = model.status;
+        form.fields = model.fields.map(normalizeFieldForForm);
+      },
+      { immediate: true }
+    );
+    watch(
+      () => form.name,
+      (value) => {
+        if (!props.model) {
+          form.apiId = toSlug(value);
+        }
+      }
+    );
+    return (_ctx, _push, _parent, _attrs) => {
+      const _component_ModelFieldEditor = __nuxt_component_0;
+      const _component_Icon = __nuxt_component_1$1;
+      _push(`<form${ssrRenderAttrs(mergeProps({ class: "grid gap-6 xl:grid-cols-[minmax(0,1.35fr)_360px]" }, _attrs))}><div class="space-y-6"><section class="grid gap-4 md:grid-cols-2"><label class="space-y-2 text-sm"><span class="font-medium">${ssrInterpolate(unref(t)("modelForm.name"))}</span><input${ssrRenderAttr("value", unref(form).name)} class="form-input"${ssrRenderAttr("placeholder", unref(t)("modelForm.name"))}></label><label class="space-y-2 text-sm"><span class="font-medium">${ssrInterpolate(unref(t)("modelForm.apiId"))}</span><input${ssrRenderAttr("value", unref(form).apiId)} class="form-input" placeholder="article"></label></section><section class="grid gap-4 md:grid-cols-[minmax(0,1fr)_220px]"><label class="space-y-2 text-sm"><span class="font-medium">${ssrInterpolate(unref(t)("modelForm.description"))}</span><textarea class="form-textarea min-h-[110px]"${ssrRenderAttr("placeholder", unref(t)("modelForm.description"))}>${ssrInterpolate(unref(form).description)}</textarea></label><label class="space-y-2 text-sm"><span class="font-medium">${ssrInterpolate(unref(t)("modelForm.status"))}</span><select class="form-select"><!--[-->`);
+      ssrRenderList(__props.statusOptions, (option) => {
+        _push(`<option${ssrRenderAttr("value", option.value)}${ssrIncludeBooleanAttr(Array.isArray(unref(form).status) ? ssrLooseContain(unref(form).status, option.value) : ssrLooseEqual(unref(form).status, option.value)) ? " selected" : ""}>${ssrInterpolate(option.label)}</option>`);
+      });
+      _push(`<!--]--></select></label></section>`);
+      _push(ssrRenderComponent(_component_ModelFieldEditor, {
+        fields: unref(form).fields,
+        "onUpdate:fields": ($event) => unref(form).fields = $event,
+        models: __props.models
+      }, null, _parent));
+      _push(`</div><aside class="space-y-5"><div class="hard-panel space-y-4 px-5 py-5"><p class="text-xs font-semibold uppercase tracking-[0.2em] text-black/40">${ssrInterpolate(unref(t)("modelForm.summary"))}</p><div class="space-y-3 text-sm leading-6 text-black/64"><p><span class="font-medium text-black">${ssrInterpolate(unref(t)("modelForm.apiPath"))}</span><br><code>${ssrInterpolate(`/api/v1/content/${unref(form).apiId || "model-api-id"}`)}</code></p><p><span class="font-medium text-black">${ssrInterpolate(unref(t)("common.fields"))}</span><br>${ssrInterpolate(unref(form).fields.length)}</p><p><span class="font-medium text-black">${ssrInterpolate(unref(t)("modelForm.visibleColumns"))}</span><br>${ssrInterpolate(unref(form).fields.filter((field) => field.showInList).length)}</p></div></div><div class="flex flex-wrap gap-3"><button class="action-button" type="button">${ssrInterpolate(unref(t)("modelForm.cancel"))}</button><button class="action-button" data-variant="solid" type="submit">`);
+      _push(ssrRenderComponent(_component_Icon, {
+        name: "lucide:save",
+        size: "16"
+      }, null, _parent));
+      _push(` ${ssrInterpolate(__props.submitLabel)}</button></div></aside></form>`);
+    };
+  }
+});
+const _sfc_setup = _sfc_main.setup;
+_sfc_main.setup = (props, ctx) => {
+  const ssrContext = useSSRContext();
+  (ssrContext.modules || (ssrContext.modules = /* @__PURE__ */ new Set())).add("components/ModelForm.vue");
+  return _sfc_setup ? _sfc_setup(props, ctx) : void 0;
+};
+const __nuxt_component_2 = Object.assign(_sfc_main, { __name: "ModelForm" });
+
+export { __nuxt_component_2 as _ };
+//# sourceMappingURL=ModelForm-vVRtBGMb.mjs.map
